@@ -1,0 +1,156 @@
+digraph EstoqueUML {
+    graph [
+        rankdir=LR, bgcolor="white", pad="0.35", nodesep="0.4", ranksep="0.75",
+        fontname="DejaVu Sans", fontsize=21,
+        label="Controle de estoque — diagrama de classes\nLinguagem de Programação I · C++17",
+        labelloc=t, labeljust=c
+    ];
+    node [shape=plain, fontname="DejaVu Sans", fontsize=12];
+    edge [fontname="DejaVu Sans", fontsize=10, color="#334155", arrowsize=1.1];
+
+    Aplicacao [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#334155">
+            <TR><TD BGCOLOR="#dbeafe"><B>Aplicacao</B></TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">- estoque: Estoque</TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                + Aplicacao(caminhoArquivo: string)<BR ALIGN="LEFT"/>
+                + executar(): void<BR ALIGN="LEFT"/>
+                - pesquisar(nome: string): int<BR ALIGN="LEFT"/>
+                - lerProduto(cadastro: Data): unique_ptr&lt;Produto&gt;<BR ALIGN="LEFT"/>
+                - inserir(): void<BR ALIGN="LEFT"/>
+                - exibirUm(): void<BR ALIGN="LEFT"/>
+                - alterar(): void<BR ALIGN="LEFT"/>
+                - remover(): void
+            </TD></TR>
+        </TABLE>
+    >];
+
+    Estoque [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#334155">
+            <TR><TD BGCOLOR="#dbeafe"><B>Estoque</B></TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                - produtos: vector&lt;unique_ptr&lt;Produto&gt;&gt;<BR ALIGN="LEFT"/>
+                - caminhoArquivo: string<BR ALIGN="LEFT"/>
+                - carregado: bool
+            </TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                + Estoque(caminhoArquivo: string)<BR ALIGN="LEFT"/>
+                + adicionar(produto: unique_ptr&lt;Produto&gt;): void<BR ALIGN="LEFT"/>
+                + listar(): const vector&amp;<BR ALIGN="LEFT"/>
+                + pesquisar(nome: string): vector&lt;size_t&gt;<BR ALIGN="LEFT"/>
+                + alterar(indice: size_t, produto: unique_ptr&lt;Produto&gt;): void<BR ALIGN="LEFT"/>
+                + remover(indice: size_t): void<BR ALIGN="LEFT"/>
+                + carregar(): void<BR ALIGN="LEFT"/>
+                + salvar(): void<BR ALIGN="LEFT"/>
+                + relatorio(saida: ostream&amp;): void
+            </TD></TR>
+        </TABLE>
+    >];
+
+    Produto [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#334155">
+            <TR><TD BGCOLOR="#ede9fe">«abstract»<BR/><B><I>Produto</I></B></TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                - nome: string<BR ALIGN="LEFT"/>
+                - precoCentavos: long long<BR ALIGN="LEFT"/>
+                - quantidade: int<BR ALIGN="LEFT"/>
+                - dataCadastro: Data
+            </TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                + Produto(nome, precoCentavos, quantidade, dataCadastro)<BR ALIGN="LEFT"/>
+                + ~Produto(): virtual<BR ALIGN="LEFT"/>
+                + getNome(): const string&amp;<BR ALIGN="LEFT"/>
+                + getPrecoCentavos(): long long<BR ALIGN="LEFT"/>
+                + getQuantidade(): int<BR ALIGN="LEFT"/>
+                + getDataCadastro(): const Data&amp;<BR ALIGN="LEFT"/>
+                + valorEmEstoque(): long long<BR ALIGN="LEFT"/>
+                + <I>tipo(): string</I><BR ALIGN="LEFT"/>
+                + exibir(saida: ostream&amp;): void {virtual}<BR ALIGN="LEFT"/>
+                + <I>salvar(saida: ostream&amp;): void</I>
+            </TD></TR>
+        </TABLE>
+    >];
+
+    Data [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#334155">
+            <TR><TD BGCOLOR="#dcfce7"><B>Data</B></TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                - ano: int<BR ALIGN="LEFT"/>
+                - mes: int<BR ALIGN="LEFT"/>
+                - dia: int
+            </TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                + Data(iso: const string&amp;)<BR ALIGN="LEFT"/>
+                + toString(): string<BR ALIGN="LEFT"/>
+                + <U>hoje(): Data</U><BR ALIGN="LEFT"/>
+                + operator&lt;(outra: const Data&amp;): bool<BR ALIGN="LEFT"/>
+                + operator==(outra: const Data&amp;): bool
+            </TD></TR>
+        </TABLE>
+    >];
+
+    ProdutoPerecivel [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#334155">
+            <TR><TD BGCOLOR="#fef3c7"><B>ProdutoPerecivel</B></TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">- validade: Data</TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                + ProdutoPerecivel(..., validade: Data)<BR ALIGN="LEFT"/>
+                + getValidade(): const Data&amp;<BR ALIGN="LEFT"/>
+                + tipo(): string {override}<BR ALIGN="LEFT"/>
+                + exibir(saida: ostream&amp;): void {override}<BR ALIGN="LEFT"/>
+                + salvar(saida: ostream&amp;): void {override}
+            </TD></TR>
+        </TABLE>
+    >];
+
+    ProdutoNaoPerecivel [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#334155">
+            <TR><TD BGCOLOR="#fef3c7"><B>ProdutoNaoPerecivel</B></TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">- categoria: string</TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                + ProdutoNaoPerecivel(..., categoria: string)<BR ALIGN="LEFT"/>
+                + getCategoria(): const string&amp;<BR ALIGN="LEFT"/>
+                + tipo(): string {override}<BR ALIGN="LEFT"/>
+                + exibir(saida: ostream&amp;): void {override}<BR ALIGN="LEFT"/>
+                + salvar(saida: ostream&amp;): void {override}
+            </TD></TR>
+        </TABLE>
+    >];
+
+    ResumoEstoque [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#334155">
+            <TR><TD BGCOLOR="#f1f5f9">«struct»<BR/><B>ResumoEstoque</B></TD></TR>
+            <TR><TD ALIGN="LEFT" BORDER="1" SIDES="T">
+                + cadastros: size_t<BR ALIGN="LEFT"/>
+                + unidades: long long<BR ALIGN="LEFT"/>
+                + valor: long long
+            </TD></TR>
+        </TABLE>
+    >];
+
+    Legenda [label=<
+        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+            <TR><TD ALIGN="LEFT"><B>Notação</B></TD></TR>
+            <TR><TD ALIGN="LEFT">+ público · - privado</TD></TR>
+            <TR><TD ALIGN="LEFT">Triângulo vazio: herança</TD></TR>
+            <TR><TD ALIGN="LEFT">Losango preenchido: composição</TD></TR>
+            <TR><TD ALIGN="LEFT"><I>Itálico: abstrato / virtual puro</I></TD></TR>
+            <TR><TD ALIGN="LEFT"><U>Sublinhado: estático</U></TD></TR>
+            <TR><TD ALIGN="LEFT">Referências e const simplificados em alguns métodos.</TD></TR>
+            <TR><TD ALIGN="LEFT">... = campos herdados no construtor de Produto.</TD></TR>
+        </TABLE>
+    >];
+
+    { rank=same; Aplicacao; Legenda; }
+    { rank=same; Produto; Data; }
+    { rank=same; Estoque; ResumoEstoque; }
+    { rank=same; ProdutoPerecivel; ProdutoNaoPerecivel; }
+
+    Estoque -> ResumoEstoque [style=dashed, arrowhead=open, label="agrega totais", constraint=false];
+    Aplicacao -> Estoque [dir=back, arrowtail=diamond, arrowhead=none, taillabel="1", headlabel="1"];
+    Estoque -> Produto [dir=back, arrowtail=diamond, arrowhead=none, taillabel="1", headlabel="0..*", label="produtos"];
+    Produto -> ProdutoPerecivel [dir=back, arrowtail=empty, arrowhead=none];
+    Produto -> ProdutoNaoPerecivel [dir=back, arrowtail=empty, arrowhead=none];
+    Produto -> Data [dir=back, arrowtail=diamond, arrowhead=none, taillabel="1", headlabel="1", label="dataCadastro", constraint=false];
+    ProdutoPerecivel -> Data [dir=back, arrowtail=diamond, arrowhead=none, taillabel="1", headlabel="1", label="validade", constraint=false];
+}

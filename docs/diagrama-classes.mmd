@@ -1,0 +1,87 @@
+classDiagram
+    class Data {
+        -int ano
+        -int mes
+        -int dia
+        +Data(string iso)
+        +toString() string
+        +hoje() Data
+    }
+
+    class Produto {
+        <<abstract>>
+        -string nome
+        -long long precoCentavos
+        -int quantidade
+        -Data dataCadastro
+        +Produto(string nome, long long precoCentavos, int quantidade, Data dataCadastro)
+        +~Produto()
+        +getNome() string
+        +getPrecoCentavos() long long
+        +getQuantidade() int
+        +getDataCadastro() Data
+        +valorEmEstoque() long long
+        +tipo() string
+        +exibir(ostream saida) void
+        +salvar(ostream saida) void
+    }
+
+    class ProdutoPerecivel {
+        -Data validade
+        +ProdutoPerecivel(string nome, long long precoCentavos, int quantidade, Data dataCadastro, Data validade)
+        +getValidade() Data
+        +tipo() string
+        +exibir(ostream saida) void
+        +salvar(ostream saida) void
+    }
+
+    class ProdutoNaoPerecivel {
+        -string categoria
+        +ProdutoNaoPerecivel(string nome, long long precoCentavos, int quantidade, Data dataCadastro, string categoria)
+        +getCategoria() string
+        +tipo() string
+        +exibir(ostream saida) void
+        +salvar(ostream saida) void
+    }
+
+    class Estoque {
+        -vector produtos
+        -string caminhoArquivo
+        -bool carregado
+        +Estoque(string caminhoArquivo)
+        +adicionar(unique_ptr~Produto~ produto) void
+        +listar() vector
+        +pesquisar(string nome) vector
+        +alterar(size_t indice, unique_ptr~Produto~ produto) void
+        +remover(size_t indice) void
+        +carregar() void
+        +salvar() void
+        +relatorio(ostream saida) void
+    }
+
+    class ResumoEstoque {
+        <<struct>>
+        +size_t cadastros
+        +long long unidades
+        +long long valor
+    }
+
+    class Aplicacao {
+        -Estoque estoque
+        +Aplicacao(string caminhoArquivo)
+        +executar() void
+        -pesquisar(string nome) int
+        -lerProduto(Data cadastro) unique_ptr~Produto~
+        -inserir() void
+        -exibirUm() void
+        -alterar() void
+        -remover() void
+    }
+
+    Produto <|-- ProdutoPerecivel
+    Produto <|-- ProdutoNaoPerecivel
+    Produto "1" *-- "1" Data : dataCadastro
+    ProdutoPerecivel "1" *-- "1" Data : validade
+    Estoque "1" *-- "0..*" Produto : produtos
+    Aplicacao "1" *-- "1" Estoque
+    Estoque ..> ResumoEstoque : agrega totais
