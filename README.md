@@ -105,4 +105,4 @@ O escopo é o controle de estoque de uma aplicação acadêmica local. Não incl
 - Roteiro de até 10 minutos: [docs/apresentacao.md](docs/apresentacao.md).
 - Transparência sobre IA: [docs/uso-de-ia.md](docs/uso-de-ia.md).
 
-A IA auxiliou a modelagem, a implementação, a documentação e os testes. A pessoa responsável pela entrega deve revisar o código, conferir os requisitos e compreender o funcionamento antes da apresentação. A declaração registra a assistência recebida e não afirma que uma revisão humana já ocorreu.
+IA utilizada como apoio na elaboração e revisão do projeto, incluindo código, testes e documentação.

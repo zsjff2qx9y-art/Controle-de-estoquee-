@@ -4,7 +4,7 @@
 
 Apresente o tema 23, controle de estoque. Explique que o sistema guarda produtos perecíveis e não perecíveis, com nome, preço, quantidade e data de cadastro. O primeiro tipo tem validade; o segundo tem categoria.
 
-Informe o uso de IA conforme [a declaração](uso-de-ia.md): ela auxiliou a modelagem, a implementação, os testes e a documentação. Explique o código com suas próprias palavras e descreva as verificações que você efetivamente realizou.
+Informe o uso de IA conforme [a declaração](uso-de-ia.md): apoio na elaboração e revisão do projeto, incluindo código, testes e documentação.
 
 ## 1:00–2:30 — Modelagem
 
